@@ -5,27 +5,118 @@ import "./mainpage.css";
 import TestCase from "../TestCase/testcase";
 
 const testCases = [
+  // SELECT Queries
   {
     id: 1,
-    query: "SELECT first_name from employees",
+    query: "SELECT first_name FROM employees",
     expectedResult: [
       { first_name: "John" },
       { first_name: "Jane" },
       { first_name: "Bob" },
-      // { first_name: "Alice" },
-      // { first_name: "Charlie" },
-      // { first_name: "Eve" },
+      { first_name: "Alice" },
+      { first_name: "Charlie" },
     ],
     isPassed: false,
   },
   {
     id: 2,
-    query: "SELECT last_name from employees where department_id=1",
+    query: "SELECT last_name FROM employees WHERE department_id = 1",
+    expectedResult: [{ last_name: "Doe" }, { last_name: "Smith" }],
+    isPassed: false,
+  },
+  {
+    id: 3,
+    query:
+      "SELECT * FROM employees WHERE salary > (SELECT AVG(salary) FROM employees WHERE department_id = employees.department_id)",
     expectedResult: [
-      { last_name: "Doe" },
-      { last_name: "Smith" },
-      { last_name: "Johnson" },
+      {
+        employee_id: 1,
+        first_name: "John",
+        last_name: "Doe",
+        department_id: 1,
+        salary: 120000,
+      },
+      {
+        employee_id: 3,
+        first_name: "Bob",
+        last_name: "Johnson",
+        department_id: 2,
+        salary: 110000,
+      },
     ],
+    isPassed: false,
+  },
+  {
+    id: 4,
+    query:
+      "SELECT department_id, COUNT(*) as num_employees FROM employees GROUP BY department_id",
+    expectedResult: [
+      { department_id: 1, num_employees: 2 },
+      { department_id: 2, num_employees: 2 },
+      { department_id: 3, num_employees: 1 },
+    ],
+    isPassed: false,
+  },
+  {
+    id: 5,
+    query: "SELECT first_name, last_name FROM employees WHERE salary > 100000",
+    expectedResult: [
+      { first_name: "John", last_name: "Doe" },
+      { first_name: "Bob", last_name: "Johnson" },
+    ],
+    isPassed: false,
+  },
+  // INSERT Query
+  {
+    id: 6,
+    query:
+      "INSERT INTO employees (first_name, last_name, department_id, salary) VALUES ('Alice', 'Wonderland', 2, 95000)",
+    expectedResult: [], // INSERT queries do not return rows
+    isPassed: false,
+  },
+  {
+    id: 7,
+    query:
+      "SELECT * FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
+    expectedResult: [
+      {
+        employee_id: 6,
+        first_name: "Alice",
+        last_name: "Wonderland",
+        department_id: 2,
+        salary: 95000,
+      },
+    ],
+    isPassed: false,
+  },
+  // UPDATE Query
+  {
+    id: 8,
+    query:
+      "UPDATE employees SET salary = 105000 WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
+    expectedResult: [], // UPDATE queries do not return rows
+    isPassed: false,
+  },
+  {
+    id: 9,
+    query:
+      "SELECT salary FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
+    expectedResult: [{ salary: 105000 }],
+    isPassed: false,
+  },
+  // DELETE Query
+  {
+    id: 10,
+    query:
+      "DELETE FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
+    expectedResult: [], // DELETE queries do not return rows
+    isPassed: false,
+  },
+  {
+    id: 11,
+    query:
+      "SELECT * FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
+    expectedResult: [],
     isPassed: false,
   },
 ];
