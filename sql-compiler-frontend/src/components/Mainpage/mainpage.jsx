@@ -5,7 +5,6 @@ import "./mainpage.css";
 import TestCase from "../TestCase/testcase";
 
 const testCases = [
-  // SELECT Queries
   {
     id: 1,
     query: "SELECT first_name FROM employees",
@@ -64,59 +63,6 @@ const testCases = [
       { first_name: "John", last_name: "Doe" },
       { first_name: "Bob", last_name: "Johnson" },
     ],
-    isPassed: false,
-  },
-  // INSERT Query
-  {
-    id: 6,
-    query:
-      "INSERT INTO employees (first_name, last_name, department_id, salary) VALUES ('Alice', 'Wonderland', 2, 95000)",
-    expectedResult: [], // INSERT queries do not return rows
-    isPassed: false,
-  },
-  {
-    id: 7,
-    query:
-      "SELECT * FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
-    expectedResult: [
-      {
-        employee_id: 6,
-        first_name: "Alice",
-        last_name: "Wonderland",
-        department_id: 2,
-        salary: 95000,
-      },
-    ],
-    isPassed: false,
-  },
-  // UPDATE Query
-  {
-    id: 8,
-    query:
-      "UPDATE employees SET salary = 105000 WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
-    expectedResult: [], // UPDATE queries do not return rows
-    isPassed: false,
-  },
-  {
-    id: 9,
-    query:
-      "SELECT salary FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
-    expectedResult: [{ salary: 105000 }],
-    isPassed: false,
-  },
-  // DELETE Query
-  {
-    id: 10,
-    query:
-      "DELETE FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
-    expectedResult: [], // DELETE queries do not return rows
-    isPassed: false,
-  },
-  {
-    id: 11,
-    query:
-      "SELECT * FROM employees WHERE first_name = 'Alice' AND last_name = 'Wonderland'",
-    expectedResult: [],
     isPassed: false,
   },
 ];
@@ -278,7 +224,7 @@ const MainPage = () => {
           )}
         </div>
         <div className="testcase-container">
-          <h1 className="testcase-title">TestCases</h1>
+          <h1 className="testcase-title">Test Cases</h1>
           {Object.keys(testcaseStatus).length > 0 ? (
             Object.keys(testcaseStatus).map((key, index) => (
               <TestCase
@@ -293,7 +239,7 @@ const MainPage = () => {
         </div>
       </div>
       <div className="right-side-container">
-        <SQLEditor onExecute={checkTestCases} resetTestCases={resetTestCases} />
+        <SQLEditor onExecute={checkTestCases} />
       </div>
     </div>
   );
